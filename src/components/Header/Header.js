@@ -7,9 +7,9 @@ export function Header() {
     return (
         <header className={style.container}>
             <div className={style.leftSection}>
-                <NavLink exact to={'/today'}>Today</NavLink>
-                <NavLink exact to={'/tomorrow'}>Tomorrow</NavLink>
-                <NavLink exact to={'/week'}>Week</NavLink>
+                <NavLink activeClassName={style.active} exact to={'/today'}>Today</NavLink>
+                <NavLink activeClassName={style.active} exact to={'/tomorrow'}>Tomorrow</NavLink>
+                <NavLink activeClassName={style.active} exact to={'/week'}>Week</NavLink>
             </div>
             <div className={style.rightSection}>
                 <Search/>

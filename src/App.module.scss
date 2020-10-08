@@ -1,5 +1,12 @@
+* {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  letter-spacing: normal;
+  color: #95989A;
+  box-sizing: border-box;
+}
+
 .container {
   display: grid;
-  grid-template-rows: 65px 1fr;
+  grid-template-rows: 70px 1fr;
   min-height: 100vh;
 }
