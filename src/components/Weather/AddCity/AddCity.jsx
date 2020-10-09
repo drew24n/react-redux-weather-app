@@ -1,7 +1,7 @@
 import React from 'react';
-import style from './AddCitySection.module.scss';
+import style from './AddCity.module.scss';
 
-export function AddCitySection() {
+export function AddCity() {
     return (
         <div className={style.container}>
             AddCitySection
