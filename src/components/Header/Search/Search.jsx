@@ -1,21 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './Search.module.scss';
-import AlgoliaPlaces from 'algolia-places-react';
+import places from 'places.js';
+import {useDispatch} from "react-redux";
+import {setCity} from "../../../redux/weatherReducer";
 
 export function Search() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const placesAutocomplete = places({
+            appId: 'plCTYKM9X45Q',
+            apiKey: '6fc5c209a0ca763e250a15b19b9267f9',
+            container: document.getElementById('searchInput')
+        }).configure({
+            language: 'en',
+            type: 'city'
+        })
+        placesAutocomplete.on('change', e => dispatch(setCity(e.suggestion.name)))
+        placesAutocomplete.on('clear', () => dispatch(setCity('')))
+    }, [dispatch])
+
     return (
         <div className={style.container}>
-            <AlgoliaPlaces
-                placeholder='Find city...'
-                options={{
-                    appId: 'plCTYKM9X45Q',
-                    apiKey: '6fc5c209a0ca763e250a15b19b9267f9',
-                    language: 'en',
-                    type: 'city'
-                }}
-                onChange={e => {}}
-                onClear={e => {}}
-               />
+            <input id={'searchInput'} placeholder="Find city..."/>
         </div>
     )
 }

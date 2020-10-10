@@ -6,44 +6,40 @@ import {Today} from "./components/Weather/Today/Today";
 import {Tomorrow} from "./components/Weather/Tomorrow/Tomorrow";
 import {Week} from "./components/Weather/Week/Week";
 import {useDispatch, useSelector} from "react-redux";
-import {getWeather, setOptions} from "./redux/weatherReducer";
+import {getWeather, setCoordinates} from "./redux/weatherReducer";
 import {Default} from "./components/Weather/Default/Default";
 
 export function App() {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
-    let watchId
-
-    function getCurrentPosition() {
-        return new Promise(res => {
-            return watchId = navigator.geolocation.watchPosition(res)
-        })
-    }
-
     useEffect(() => {
-        getCurrentPosition().then(function (res) {
+        function getCurrentPosition() {
+            return new Promise(res => navigator.geolocation.watchPosition(res, () => {
+            }, {maximumAge: Number.POSITIVE_INFINITY}))
+        }
+
+        getCurrentPosition().then(res => {
             if (res) {
                 const lat = res.coords.latitude
                 const lon = res.coords.longitude
-                dispatch(setOptions({forecast: 'weather', city: '', lat, lon, days: ''}))
-                navigator.geolocation.clearWatch(watchId)
+                dispatch(setCoordinates({lat, lon}))
             }
         })
-    })
+    }, [dispatch])
 
     useEffect(() => {
-        if (weatherState.options.city || weatherState.options.lat) {
+        if (weatherState.city || weatherState.coordinates.lat) {
             dispatch(getWeather({
-                forecast: weatherState.options.forecast,
-                city: weatherState.options.city,
-                lat: weatherState.options.lat,
-                lon: weatherState.options.lon,
-                days: weatherState.options.days
+                searchType: weatherState.searchType,
+                city: weatherState.city,
+                lat: weatherState.coordinates.lat,
+                lon: weatherState.coordinates.lon,
+                days: weatherState.days
             }))
         }
-    }, [dispatch, weatherState.options.city, weatherState.options.forecast, weatherState.options.days,
-        weatherState.options.lat, weatherState.options.lon])
+    }, [dispatch, weatherState.city, weatherState.searchType, weatherState.days, weatherState.coordinates.lat,
+        weatherState.coordinates.lon])
 
     return (
         <div className={style.container}>
