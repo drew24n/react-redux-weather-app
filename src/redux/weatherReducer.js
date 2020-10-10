@@ -1,14 +1,18 @@
 import {getWeatherApi} from "../api/weatherAPI";
+import {getCityAPI} from "../api/locationAPI";
+import {localStorageService} from "../localStorageService";
 
-const SET_WEATHER = "SET_WEATHER"
+const SET_TODAY_WEATHER = "SET_TODAY_WEATHER"
 const SET_FORECAST = "SET_FORECAST"
-const SET_COORDINATES = "SET_COORDINATES"
-const SET_CITY = "SET_CITY"
+const SET_SEARCH_CITY = "SET_SEARCH_CITY"
 const SET_SEARCH_TYPE = "SET_SEARCH_TYPE"
-const SET_DAYS = "SET_DAYS"
+const SET_DAYS_AMOUNT = "SET_DAYS_AMOUNT"
+const SET_SAVED_CITIES = "SET_SAVED_CITIES"
+const SAVE_CITY = "SAVE_CITY"
+const REMOVE_CITY = "REMOVE_CITY"
 
 const initialState = {
-    weather: {
+    weatherData: {
         city: '',
         country: '',
         days: [
@@ -21,19 +25,16 @@ const initialState = {
         ]
     },
     searchType: '',
-    city: '',
-    days: '',
-    coordinates: {
-        lat: '',
-        lon: ''
-    },
+    searchCity: '',
+    daysAmount: 0,
+    savedCities: []
 }
 
 export const weatherReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_WEATHER:
+        case SET_TODAY_WEATHER:
             return {
-                ...state, weather: {
+                ...state, weatherData: {
                     city: action.weather.name,
                     country: action.weather.sys.country,
                     days: [{
@@ -46,7 +47,7 @@ export const weatherReducer = (state = initialState, action) => {
             }
         case SET_FORECAST:
             return {
-                ...state, weather: {
+                ...state, weatherData: {
                     city: action.forecast.city.name,
                     country: action.forecast.city.country,
                     days: [...action.forecast.list.map(d => ({
@@ -57,43 +58,50 @@ export const weatherReducer = (state = initialState, action) => {
                     }))]
                 }
             }
-        case SET_COORDINATES:
-            return {
-                ...state, coordinates: {
-                    lat: action.coordinates.lat,
-                    lon: action.coordinates.lon
-                }
-            }
         case SET_SEARCH_TYPE:
             return {
                 ...state, searchType: action.searchType
             }
-        case SET_CITY:
+        case SET_SEARCH_CITY:
             return {
-                ...state, city: action.city
+                ...state, searchCity: action.searchCity
             }
-        case SET_DAYS:
+        case SET_DAYS_AMOUNT:
             return {
-                ...state, days: action.days
+                ...state, daysAmount: action.daysAmount
+            }
+        case SET_SAVED_CITIES:
+            return {
+                ...state, savedCities: action.savedCities
+            }
+        case SAVE_CITY:
+            return {
+                ...state, savedCities: [...state.savedCities, action.city]
+            }
+        case REMOVE_CITY:
+            return {
+                ...state, savedCities: state.savedCities.filter(cities => cities !== action.city)
             }
         default:
             return state
     }
 }
 
-const setWeather = (weather) => ({type: SET_WEATHER, weather})
+const setTodayWeather = (weather) => ({type: SET_TODAY_WEATHER, weather})
 const setForecast = (forecast) => ({type: SET_FORECAST, forecast})
-export const setDays = (days) => ({type: SET_DAYS, days})
-export const setCity = (city) => ({type: SET_CITY, city})
+export const setDaysAmount = (daysAmount) => ({type: SET_DAYS_AMOUNT, daysAmount})
+export const setSearchCity = (searchCity) => ({type: SET_SEARCH_CITY, searchCity})
 export const setSearchType = (searchType) => ({type: SET_SEARCH_TYPE, searchType})
-export const setCoordinates = (coordinates) => ({type: SET_COORDINATES, coordinates})
+export const setSavedCities = (savedCities) => ({type: SET_SAVED_CITIES, savedCities})
+export const setSaveCity = (city) => ({type: SAVE_CITY, city})
+export const setRemoveCity = (city) => ({type: REMOVE_CITY, city})
 
 export const getWeather = (options) => async (dispatch) => {
     try {
         const res = await getWeatherApi(options)
-        if (options.searchType === 'weather') {
-            dispatch(setWeather(res.data))
-        } else if (options.searchType === 'forecast') {
+        if (res && options.searchType === 'weather') {
+            dispatch(setTodayWeather(res.data))
+        } else if (res && options.searchType === 'forecast') {
             dispatch(setForecast(res.data))
         }
     } catch (e) {
@@ -101,3 +109,26 @@ export const getWeather = (options) => async (dispatch) => {
     }
 }
 
+export const getCity = ({lat, lon}) => async (dispatch) => {
+    try {
+        const res = await getCityAPI({lat, lon})
+        if (res) {
+            dispatch(setSearchCity(res.data.results[0].components.city))
+        }
+    } catch (e) {
+        alert(e)
+    }
+}
+
+export const saveCity = (city) => (dispatch, getState) => {
+    if (getState().weather.savedCities.find(i => i === city) || !city) return
+    dispatch(setSaveCity(city))
+    const {savedCities} = getState().weather
+    localStorageService.setCities(JSON.stringify(savedCities))
+}
+
+export const removeCity = (city) => (dispatch, getState) => {
+    dispatch(setRemoveCity(city))
+    const {savedCities} = getState().weather
+    localStorageService.setCities(JSON.stringify(savedCities))
+}

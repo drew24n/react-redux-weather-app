@@ -6,8 +6,9 @@ import {Today} from "./components/Weather/Today/Today";
 import {Tomorrow} from "./components/Weather/Tomorrow/Tomorrow";
 import {Week} from "./components/Weather/Week/Week";
 import {useDispatch, useSelector} from "react-redux";
-import {getWeather, setCoordinates} from "./redux/weatherReducer";
+import {getCity, getWeather, setSavedCities} from "./redux/weatherReducer";
 import {Default} from "./components/Weather/Default/Default";
+import {localStorageService} from "./localStorageService";
 
 export function App() {
     const dispatch = useDispatch()
@@ -23,33 +24,37 @@ export function App() {
             if (res) {
                 const lat = res.coords.latitude
                 const lon = res.coords.longitude
-                dispatch(setCoordinates({lat, lon}))
+                dispatch(getCity({lat, lon}))
             }
         })
     }, [dispatch])
 
     useEffect(() => {
-        if (weatherState.city || weatherState.coordinates.lat) {
+        if (weatherState.searchCity) {
             dispatch(getWeather({
                 searchType: weatherState.searchType,
-                city: weatherState.city,
-                lat: weatherState.coordinates.lat,
-                lon: weatherState.coordinates.lon,
-                days: weatherState.days
+                searchCity: weatherState.searchCity,
+                daysAmount: weatherState.daysAmount
             }))
         }
-    }, [dispatch, weatherState.city, weatherState.searchType, weatherState.days, weatherState.coordinates.lat,
-        weatherState.coordinates.lon])
+    }, [dispatch, weatherState.searchCity, weatherState.searchType, weatherState.daysAmount])
+
+    useEffect(() => {
+        const savedCities = localStorageService.getCities()
+        if (savedCities && savedCities.length > 0) {
+            dispatch(setSavedCities(JSON.parse(savedCities)))
+        }
+    }, [dispatch])
 
     return (
         <div className={style.container}>
             <HashRouter basename={'/'}>
                 <Header/>
                 <Switch>
-                    <Route exact path={'/'}><Default/></Route>
-                    <Route exact path={'/today'}><Today/></Route>
-                    <Route exact path={'/tomorrow'}><Tomorrow/></Route>
-                    <Route exact path={'/week'}><Week/></Route>
+                    <Route exact path={'/'} component={Default}/>
+                    <Route exact path={'/today'} component={Today}/>
+                    <Route exact path={'/tomorrow'} component={Tomorrow}/>
+                    <Route exact path={'/week'} component={Week}/>
                 </Switch>
             </HashRouter>
         </div>

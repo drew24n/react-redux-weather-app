@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import style from './Search.module.scss';
 import places from 'places.js';
 import {useDispatch} from "react-redux";
-import {setCity} from "../../../redux/weatherReducer";
+import {setSearchCity} from "../../../redux/weatherReducer";
 
 export function Search() {
     const dispatch = useDispatch()
@@ -16,8 +16,8 @@ export function Search() {
             language: 'en',
             type: 'city'
         })
-        placesAutocomplete.on('change', e => dispatch(setCity(e.suggestion.name)))
-        placesAutocomplete.on('clear', () => dispatch(setCity('')))
+        placesAutocomplete.on('change', e => dispatch(setSearchCity(e.suggestion.name)))
+        placesAutocomplete.on('clear', () => dispatch(setSearchCity('')))
     }, [dispatch])
 
     return (
