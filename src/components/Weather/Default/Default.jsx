@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import style from './Default.module.scss';
-import {AddCity} from "../AddCity/AddCity";
+import {AddCity} from "../common/AddCity/AddCity";
 import {useDispatch, useSelector} from "react-redux";
 import {removeCity, setSearchCity, setSearchType} from "../../../redux/weatherReducer";
 
-export function Default({location}) {
+export function Default({history}) {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
@@ -14,14 +14,24 @@ export function Default({location}) {
 
     return (
         <div className={style.container}>
-            <AddCity location={location}/>
+            <AddCity location={history.location}/>
             <h3>Saved cities</h3>
+            {!weatherState.savedCities.length && <p className={style.msg}>Save cities for easier navigation!</p>}
             <div className={style.citiesContainer}>
                 {weatherState.savedCities.map((city, index) => {
-                    return <div className={style.cityItem} key={index}>
-                        <div className={style.closeBtn} onClick={() => dispatch(removeCity(city))}>✕</div>
-                        <p onClick={() => dispatch(setSearchCity(city))}>{city}</p>
-                    </div>
+                    return (
+                        <div className={style.cityItem} key={index} onClick={() => {
+                            dispatch(setSearchCity(city))
+                            history.push('/today')
+                        }}>
+                            <div className={style.closeBtn} onClick={e => {
+                                e.stopPropagation()
+                                dispatch(removeCity(city))
+                            }}>✕
+                            </div>
+                            <p>{city}</p>
+                        </div>
+                    )
                 })}
             </div>
         </div>

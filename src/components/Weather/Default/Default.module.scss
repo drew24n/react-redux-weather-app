@@ -23,13 +23,20 @@
     height: 30px;
     border: solid 2px #95989A;
     border-radius: 50%;
-    cursor: pointer;
+  }
+
+  .msg {
+    position: absolute;
+    top: 60%;
+    width: 100%;
+    text-align: center;
   }
 
   .cityItem {
     border: solid 1px #95989A;
     font-weight: 400;
     font-size: 20px;
+    cursor: pointer;
 
     p {
       text-align: center;

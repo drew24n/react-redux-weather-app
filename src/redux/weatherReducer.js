@@ -15,6 +15,10 @@ const initialState = {
     weatherData: {
         city: '',
         country: '',
+        coordinates: {
+            lat: 0,
+            lon: 0
+        },
         days: [
             {
                 time: 0,
@@ -37,6 +41,7 @@ export const weatherReducer = (state = initialState, action) => {
                 ...state, weatherData: {
                     city: action.weather.name,
                     country: action.weather.sys.country,
+                    coordinates: {...action.weather.coord},
                     days: [{
                         time: action.weather.dt,
                         temp: action.weather.main.temp,
@@ -50,6 +55,7 @@ export const weatherReducer = (state = initialState, action) => {
                 ...state, weatherData: {
                     city: action.forecast.city.name,
                     country: action.forecast.city.country,
+                    coordinates: {...action.forecast.city.coord},
                     days: [...action.forecast.list.map(d => ({
                         time: d.dt,
                         temp: d.main.temp,

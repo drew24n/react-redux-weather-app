@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './AddCity.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {saveCity} from "../../../redux/weatherReducer";
+import {saveCity} from "../../../../redux/weatherReducer";
 
 export function AddCity({location}) {
     const dispatch = useDispatch()
@@ -19,7 +19,7 @@ export function AddCity({location}) {
                             - {weatherState.weatherData.days[0].wind} meter per second</p>
                         }
                     </>
-                    : <p>No data available</p>
+                    : <p className={style.noData}>No data available</p>
                 }
             </div>
             <div className={style.addBtn} onClick={() => dispatch(saveCity(weatherState.weatherData.city))}>+</div>

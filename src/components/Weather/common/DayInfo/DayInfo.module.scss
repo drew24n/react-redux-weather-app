@@ -1,0 +1,53 @@
+.weatherWrapper {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  grid-column-gap: 40px;
+  margin: 40px 7%;
+
+  .info {
+    margin-bottom: 30px;
+    font-size: 14px;
+
+    p {
+      margin: 0;
+    }
+
+    .day {
+      margin-bottom: 40px;
+
+      p:first-child {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+    }
+
+    .data {
+      display: grid;
+      max-width: 330px;
+      grid-row-gap: 20px;
+      grid-template-columns: 20% 80%;
+
+      p {
+        border-bottom: 1px solid #95989a;
+        padding-bottom: 15px;
+      }
+
+      p:nth-child(2) {
+        width: 120px;
+      }
+    }
+
+    .noData {
+      position: relative;
+      top: 50%;
+      transform: translateY(-100%);
+      text-align: center;
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 780px) {
+    grid-template-columns: 1fr;
+  }
+}

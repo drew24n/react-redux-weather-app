@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import style from './Tomorrow.module.scss';
-import {AddCity} from "../AddCity/AddCity";
+import {AddCity} from "../common/AddCity/AddCity";
 import {useDispatch} from "react-redux";
 import {setDaysAmount, setSearchType} from "../../../redux/weatherReducer";
+import {DayInfo} from "../common/DayInfo/DayInfo";
 
-export function Tomorrow() {
+export function Tomorrow({history}) {
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -13,8 +13,9 @@ export function Tomorrow() {
     }, [dispatch])
 
     return (
-        <div className={style.container}>
+        <div>
             <AddCity/>
+            <DayInfo history={history}/>
         </div>
     )
 }

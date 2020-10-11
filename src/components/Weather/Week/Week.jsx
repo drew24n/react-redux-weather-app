@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import style from './Week.module.scss';
-import {AddCity} from "../AddCity/AddCity";
+import {AddCity} from "../common/AddCity/AddCity";
 import {useDispatch} from "react-redux";
 import {setDaysAmount, setSearchType} from "../../../redux/weatherReducer";
 

@@ -3,10 +3,16 @@
   letter-spacing: normal;
   color: #95989A;
   box-sizing: border-box;
+  -ms-overflow-style: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .container {
   display: grid;
   grid-template-rows: 75px 1fr;
   min-height: 100vh;
+  min-width: 360px;
 }
