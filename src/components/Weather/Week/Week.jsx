@@ -12,10 +12,6 @@ export function Week() {
         month: 'long', day: 'numeric'
     })
 
-    const time = (timestamp) => new Date(timestamp * 1000).toLocaleString('en-GB', {
-        hour: 'numeric', minute: 'numeric'
-    })
-
     useEffect(() => {
         dispatch(setPortionsAmount(40))
     }, [dispatch])
@@ -24,23 +20,25 @@ export function Week() {
         <div className={style.container}>
             <TopSection/>
             <div className={style.info}>
-                {weatherState.weatherData.portions[0].date ?
+                {weatherState.weatherData.portions.length > 14 ?
                     <React.Fragment>
                         <div className={style.date}>
                             <p>Week</p>
-                            <p>Date</p>
+                            <p>{`${date(weatherState.weatherData.portions[0].date)} 
+                            - ${date(weatherState.weatherData.portions[33].date)}`}</p>
                         </div>
                         <div className={style.daysWrapper}>
                             {weatherState.weatherData.portions.map((p, index) => {
-                                return (
-                                    <div key={index} className={style.dayItem}>
-                                        <p>Date: {date(p.date)}</p>
-                                        <p>Time: {time(p.time)}</p>
-                                        <p>Temp: {p.temp} °C</p>
-                                        <p>Weather: {p.weather}</p>
-                                        <p>Wind: {p.wind} - meter/s</p>
-                                    </div>
-                                )
+                                if (index === 0 || index === 8 || index === 16 || index === 25 || index === 33) {
+                                    return (
+                                        <div key={index} className={style.dayItem}>
+                                            <p>Date: {date(p.date)}</p>
+                                            <p>Temp: {p.temp} °C</p>
+                                            <p>Weather: {p.weather}</p>
+                                            <p>Wind: {p.wind} - meter/s</p>
+                                        </div>
+                                    )
+                                } else return null
                             })}
                         </div>
                     </React.Fragment>

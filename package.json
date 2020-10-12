@@ -1,6 +1,6 @@
 {
   "name": "weather",
-  "version": "1.5.3",
+  "version": "1.5.5",
   "private": true,
   "homepage": "https://drew24n.github.io/react-redux-weather-app/",
   "dependencies": {
