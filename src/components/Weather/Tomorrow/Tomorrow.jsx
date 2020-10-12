@@ -1,21 +1,20 @@
 import React, {useEffect} from 'react';
-import {AddCity} from "../common/AddCity/AddCity";
+import {TopSection} from "../common/TopSection/TopSection";
 import {useDispatch} from "react-redux";
-import {setDaysAmount, setSearchType} from "../../../redux/weatherReducer";
-import {DayInfo} from "../common/DayInfo/DayInfo";
+import {setPortionsAmount} from "../../../redux/weatherReducer";
+import {OneDay} from "../common/OneDay/OneDay";
 
 export function Tomorrow({history}) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setSearchType('forecast'))
-        dispatch(setDaysAmount(1))
+        dispatch(setPortionsAmount(14))
     }, [dispatch])
 
     return (
         <div>
-            <AddCity/>
-            <DayInfo history={history}/>
+            <TopSection/>
+            <OneDay history={history}/>
         </div>
     )
 }

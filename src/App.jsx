@@ -6,7 +6,7 @@ import {Today} from "./components/Weather/Today/Today";
 import {Tomorrow} from "./components/Weather/Tomorrow/Tomorrow";
 import {Week} from "./components/Weather/Week/Week";
 import {useDispatch, useSelector} from "react-redux";
-import {getCity, getWeather, setSavedCities} from "./redux/weatherReducer";
+import {getWeather, setSavedCities, setSearchByCoordinates} from "./redux/weatherReducer";
 import {Default} from "./components/Weather/Default/Default";
 import {localStorageService} from "./localStorageService";
 
@@ -16,28 +16,29 @@ export function App() {
 
     useEffect(() => {
         function getCurrentPosition() {
-            return new Promise(res => navigator.geolocation.watchPosition(res, () => {
-            }, {maximumAge: Number.POSITIVE_INFINITY}))
+            return new Promise(res => navigator.geolocation.getCurrentPosition(res))
         }
 
         getCurrentPosition().then(res => {
             if (res) {
                 const lat = res.coords.latitude
                 const lon = res.coords.longitude
-                dispatch(getCity({lat, lon}))
+                dispatch(setSearchByCoordinates({lat, lon}))
             }
         })
     }, [dispatch])
 
     useEffect(() => {
-        if (weatherState.searchCity) {
+        if (weatherState.searchCity || weatherState.searchByCoordinates.lat) {
             dispatch(getWeather({
-                searchType: weatherState.searchType,
                 searchCity: weatherState.searchCity,
-                daysAmount: weatherState.daysAmount
+                searchPortions: weatherState.searchPortions,
+                lat: weatherState.searchByCoordinates.lat,
+                lon: weatherState.searchByCoordinates.lon
             }))
         }
-    }, [dispatch, weatherState.searchCity, weatherState.searchType, weatherState.daysAmount])
+    }, [dispatch, weatherState.searchCity, weatherState.searchPortions, weatherState.searchByCoordinates.lat,
+        weatherState.searchByCoordinates.lon])
 
     useEffect(() => {
         const savedCities = localStorageService.getCities()

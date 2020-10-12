@@ -1,11 +1,11 @@
 import React from 'react';
-import './CityMap.scss';
+import './Map.scss';
 import {useSelector} from "react-redux";
-import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import {Map as LeafletMap, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css/';
 import L from 'leaflet';
 
-export function CityMap() {
+export function Map() {
     const weatherState = useSelector(state => state.weather)
 
     delete L.Icon.Default.prototype._getIconUrl
@@ -17,15 +17,15 @@ export function CityMap() {
     })
 
     return (
-        <Map center={weatherState.weatherData.coordinates} zoom={9}>
+        <LeafletMap center={weatherState.weatherData.coordinates} zoom={9}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
             />
             <Marker position={weatherState.weatherData.coordinates}>
-                <Popup>{weatherState.weatherData.days[0].temp} °C, {weatherState.weatherData.days[0].weather}
-                    , {weatherState.weatherData.days[0].wind} - meter per second</Popup>
+                <Popup>{weatherState.weatherData.portions[0].temp} °C, {weatherState.weatherData.portions[0].weather}
+                    , {weatherState.weatherData.portions[0].wind} - meter per second</Popup>
             </Marker>
-        </Map>
+        </LeafletMap>
     )
 }
