@@ -12,6 +12,10 @@ export function Week() {
         month: 'long', day: 'numeric'
     })
 
+    const time = (timestamp) => new Date(timestamp * 1000).toLocaleString('en-GB', {
+        hour: 'numeric', minute: 'numeric'
+    })
+
     useEffect(() => {
         dispatch(setPortionsAmount(40))
     }, [dispatch])
@@ -30,10 +34,11 @@ export function Week() {
                             {weatherState.weatherData.portions.map((p, index) => {
                                 return (
                                     <div key={index} className={style.dayItem}>
-                                        <p>{date(p.date)}</p>
-                                        <p>{p.temp} °C</p>
-                                        <p>{p.weather}</p>
-                                        <p>{p.wind} - meter / s</p>
+                                        <p>Date: {date(p.date)}</p>
+                                        <p>Time: {time(p.time)}</p>
+                                        <p>Temp: {p.temp} °C</p>
+                                        <p>Weather: {p.weather}</p>
+                                        <p>Wind: {p.wind} - meter/s</p>
                                     </div>
                                 )
                             })}

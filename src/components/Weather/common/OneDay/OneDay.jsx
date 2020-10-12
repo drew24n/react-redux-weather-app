@@ -5,6 +5,7 @@ import {Map} from "./Map/Map";
 
 export function OneDay({history}) {
     const weatherState = useSelector(state => state.weather)
+    const path = history.location.pathname
 
     const today = new Date(weatherState.weatherData.portions[0].date).toLocaleString('en-US', {
         month: 'long', day: 'numeric'
@@ -26,27 +27,32 @@ export function OneDay({history}) {
                 {weatherState.weatherData.city
                     ? <>
                         <div className={style.day}>
-                            {history && history.location.pathname === "/today"
-                                ? <>
-                                    <p>Today</p>
-                                    <p>{today}</p>
-                                </>
-                                : <>
-                                    <p>Tomorrow</p>
-                                    <p>{tomorrow}</p>
-                                </>
+                            {path === "/today"
+                                ? <><p>Today</p><p>{today}</p></>
+                                : <><p>Tomorrow</p><p>{tomorrow}</p></>
                             }
                         </div>
                         <div className={style.data}>
                             <p>Time</p>
                             <p>Weather</p>
                             {weatherState.weatherData.portions.map((p, index) => {
-                                return (
-                                    <React.Fragment key={index}>
-                                        <span>{time(p.time)}</span>
-                                        <span>{p.temp} °C, {p.weather}, {p.wind} - meter per second</span>
-                                    </React.Fragment>
-                                )
+                                const receivedDate = new Date(p.date)
+                                    .toLocaleString('en-US', {month: 'long', day: 'numeric'})
+                                if (receivedDate === today && path === "/today") {
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <span>{time(p.time)}</span>
+                                            <span>{p.temp} °C, {p.weather}, {p.wind} - meter per second</span>
+                                        </React.Fragment>
+                                    )
+                                } else if (receivedDate === tomorrow.toString() && path === "/tomorrow") {
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <span>{time(p.time)}</span>
+                                            <span>{p.temp} °C, {p.weather}, {p.wind} - meter per second</span>
+                                        </React.Fragment>
+                                    )
+                                } else return null
                             })}
                         </div>
                     </>
