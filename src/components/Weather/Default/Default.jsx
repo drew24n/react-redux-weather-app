@@ -9,25 +9,29 @@ export function Default({history}) {
     const weatherState = useSelector(state => state.weather)
 
     useEffect(() => {
-        dispatch(setPortionsAmount(6))
+        dispatch(setPortionsAmount(8))
     }, [dispatch])
 
     return (
         <div className={style.container}>
-            <TopSection location={history.location}/>
+            <TopSection history={history}/>
             <h3>Saved cities</h3>
             {!weatherState.savedCities.length && <p className={style.msg}>Save cities for easier navigation!</p>}
             <div className={style.citiesContainer}>
                 {weatherState.savedCities.map((city, index) => {
                     return (
-                        <div className={style.cityItem} key={index} onClick={() => {
-                            dispatch(setSearchCity(city))
-                            history.push('/today')
-                        }}>
-                            <div className={style.closeBtn} onClick={e => {
-                                e.stopPropagation()
-                                dispatch(removeCity(city))
-                            }}>✕
+                        <div className={style.cityItem} key={index}
+                             onClick={() => {
+                                 dispatch(setSearchCity(city))
+                                 history.push('/today')
+                             }}
+                        >
+                            <div className={style.closeBtn}
+                                 onClick={e => {
+                                     e.stopPropagation()
+                                     dispatch(removeCity(city))
+                                 }}
+                            >✕
                             </div>
                             <p>{city}</p>
                         </div>

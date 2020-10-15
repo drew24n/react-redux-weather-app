@@ -24,7 +24,8 @@ export function Map() {
             />
             <Marker position={weatherState.weatherData.coordinates}>
                 <Popup>{weatherState.weatherData.portions[0].temp} °C, {weatherState.weatherData.portions[0].weather}
-                    , {weatherState.weatherData.portions[0].wind} - meter per second</Popup>
+                    , {weatherState.weatherData.portions[0].wind} - meter per second
+                </Popup>
             </Marker>
         </LeafletMap>
     )

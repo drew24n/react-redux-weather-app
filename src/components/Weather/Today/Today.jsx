@@ -8,7 +8,7 @@ export function Today({history}) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setPortionsAmount(6))
+        dispatch(setPortionsAmount(8))
     }, [dispatch])
 
     return (

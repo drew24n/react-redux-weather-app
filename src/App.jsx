@@ -6,9 +6,10 @@ import {Today} from "./components/Weather/Today/Today";
 import {Tomorrow} from "./components/Weather/Tomorrow/Tomorrow";
 import {Week} from "./components/Weather/Week/Week";
 import {useDispatch, useSelector} from "react-redux";
-import {getWeather, setSavedCities, setSearchByCoordinates} from "./redux/weatherReducer";
+import {getWeather, setSavedCities, setSearchByCoordinates, setSearchCity} from "./redux/weatherReducer";
 import {Default} from "./components/Weather/Default/Default";
 import {localStorageService} from "./localStorageService";
+import {getCityApi} from "./api/locationAPI";
 
 export function App() {
     const dispatch = useDispatch()
@@ -16,23 +17,30 @@ export function App() {
 
     useEffect(() => {
         function getCurrentPosition() {
-            return new Promise(res => navigator.geolocation.getCurrentPosition(res))
+            return new Promise((res, err) => {
+                navigator.geolocation.getCurrentPosition(res, err)
+            })
         }
 
-        getCurrentPosition().then(res => {
-            if (res) {
+        getCurrentPosition()
+            .then(res => {
                 const lat = res.coords.latitude
                 const lon = res.coords.longitude
                 dispatch(setSearchByCoordinates({lat, lon}))
-            }
-        })
+            })
+            .catch(async () => {
+                const res = await getCityApi()
+                if (res.data.city) {
+                    dispatch(setSearchCity(res.data.city))
+                }
+            })
     }, [dispatch])
 
     useEffect(() => {
         if (weatherState.searchCity || weatherState.searchByCoordinates.lat) {
             dispatch(getWeather({
-                searchCity: weatherState.searchCity,
-                searchPortions: weatherState.searchPortions,
+                city: weatherState.searchCity,
+                portions: weatherState.searchPortions,
                 lat: weatherState.searchByCoordinates.lat,
                 lon: weatherState.searchByCoordinates.lon
             }))
@@ -42,7 +50,7 @@ export function App() {
 
     useEffect(() => {
         const savedCities = localStorageService.getCities()
-        if (savedCities && savedCities.length > 0) {
+        if (savedCities && savedCities.length) {
             dispatch(setSavedCities(JSON.parse(savedCities)))
         }
     }, [dispatch])

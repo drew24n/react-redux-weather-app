@@ -3,7 +3,7 @@ import style from './TopSection.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {saveCity} from "../../../../redux/weatherReducer";
 
-export function TopSection({location}) {
+export function TopSection({history}) {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
@@ -14,9 +14,10 @@ export function TopSection({location}) {
                     ? <>
                         <p className={style.temp}>{weatherState.weatherData.portions[0].temp} °C</p>
                         <p className={style.address}>{weatherState.weatherData.city}, {weatherState.weatherData.country}</p>
-                        {location && location.pathname === "/" &&
+                        {history && history.location.pathname === "/" &&
                         <p className={style.weather}>{weatherState.weatherData.portions[0].weather}, Wind
-                            - {weatherState.weatherData.portions[0].wind} meter per second</p>
+                            - {weatherState.weatherData.portions[0].wind} meter per second
+                        </p>
                         }
                     </>
                     : <p className={style.noData}>No data available</p>

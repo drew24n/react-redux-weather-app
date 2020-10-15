@@ -8,9 +8,8 @@ export function Week() {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
-    const date = (date) => new Date(date).toLocaleString('en-US', {
-        month: 'long', day: 'numeric'
-    })
+    const date = (index) => new Date(weatherState.weatherData.portions[index].date)
+        .toLocaleString('en-US', {month: 'long', day: 'numeric'})
 
     useEffect(() => {
         dispatch(setPortionsAmount(40))
@@ -20,22 +19,21 @@ export function Week() {
         <div className={style.container}>
             <TopSection/>
             <div className={style.info}>
-                {weatherState.weatherData.portions.length > 14 ?
+                {weatherState.weatherData.portions.length === 40 ?
                     <React.Fragment>
                         <div className={style.date}>
                             <p>Week</p>
-                            <p>{`${date(weatherState.weatherData.portions[0].date)} 
-                            - ${date(weatherState.weatherData.portions[33].date)}`}</p>
+                            <p>{date(0)} - {date(33)}</p>
                         </div>
                         <div className={style.daysWrapper}>
                             {weatherState.weatherData.portions.map((p, index) => {
-                                if (index === 0 || index === 8 || index === 16 || index === 25 || index === 33) {
+                                if ([0, 8, 16, 25, 33].includes(index)) {
                                     return (
                                         <div key={index} className={style.dayItem}>
-                                            <p>Date: {date(p.date)}</p>
-                                            <p>Temp: {p.temp} °C</p>
-                                            <p>Weather: {p.weather}</p>
-                                            <p>Wind: {p.wind} - meter/s</p>
+                                            <p>{date(index)}</p>
+                                            <p>{p.temp} °C</p>
+                                            <p>{p.weather}</p>
+                                            <p>{p.wind} - meter/s</p>
                                         </div>
                                     )
                                 } else return null

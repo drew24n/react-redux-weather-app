@@ -8,14 +8,19 @@ export function Search() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const placesAutocomplete = places({
+        const fixedOptions = {
             appId: 'plCTYKM9X45Q',
             apiKey: '6fc5c209a0ca763e250a15b19b9267f9',
             container: document.getElementById('searchInput')
-        }).configure({
+        }
+
+        const reconfigurableOptions = {
             language: 'en',
             type: 'city'
-        })
+        }
+
+        const placesAutocomplete = places(fixedOptions).configure(reconfigurableOptions)
+
         placesAutocomplete.on('change', e => dispatch(setSearchCity(e.suggestion.name)))
         placesAutocomplete.on('clear', () => dispatch(setSearchCity('')))
     }, [dispatch])
