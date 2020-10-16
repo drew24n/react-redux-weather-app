@@ -3,14 +3,14 @@ import style from './Header.module.scss';
 import {NavLink} from "react-router-dom";
 import {Search} from "./Search/Search";
 
-export function Header() {
+export function Header({city}) {
     return (
         <header className={style.container}>
             <section className={style.leftSection}>
-                <NavLink activeClassName={style.active} exact to={'/'}>Home</NavLink>
-                <NavLink activeClassName={style.active} exact to={'/today'}>Today</NavLink>
-                <NavLink activeClassName={style.active} exact to={'/tomorrow'}>Tomorrow</NavLink>
-                <NavLink activeClassName={style.active} exact to={'/week'}>Week</NavLink>
+                <NavLink activeClassName={style.active} exact to={`/?city=${city}`}>Home</NavLink>
+                <NavLink activeClassName={style.active} to={`/today?city=${city}`}>Today</NavLink>
+                <NavLink activeClassName={style.active} to={`/tomorrow?city=${city}`}>Tomorrow</NavLink>
+                <NavLink activeClassName={style.active} to={`/week?city=${city}`}>Week</NavLink>
             </section>
             <section className={style.rightSection}>
                 <Search/>

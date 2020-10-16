@@ -42,14 +42,14 @@ export function OneDay({history}) {
                             {weatherState.weatherData.portions.map((p, index) => {
                                 const receivedDate = new Date(p.date)
                                     .toLocaleString('en-US', {month: 'long', day: 'numeric'})
-                                if (receivedDate === todayDate && path === '/today') {
+                                if (receivedDate === todayDate && path === `/today`) {
                                     return (
                                         <React.Fragment key={index}>
                                             <span>{time(p.time)}</span>
                                             <span>{p.temp} °C, {p.weather}, {p.wind} - meter per second</span>
                                         </React.Fragment>
                                     )
-                                } else if (receivedDate === tomorrowDate() && path === '/tomorrow') {
+                                } else if (receivedDate === tomorrowDate() && path === `/tomorrow`) {
                                     return (
                                         <React.Fragment key={index}>
                                             <span>{time(p.time)}</span>

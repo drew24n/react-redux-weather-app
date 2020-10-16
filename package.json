@@ -5,9 +5,11 @@
   "homepage": "https://drew24n.github.io/react-redux-weather-app/",
   "dependencies": {
     "axios": "^0.20.0",
+    "history": "^5.0.0",
     "leaflet": "^1.7.1",
     "normalize.css": "^8.0.1",
     "places.js": "^1.19.0",
+    "query-string": "^6.13.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-leaflet": "^2.7.0",

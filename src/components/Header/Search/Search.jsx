@@ -3,6 +3,7 @@ import style from './Search.module.scss';
 import places from 'places.js';
 import {useDispatch} from "react-redux";
 import {setSearchCity} from "../../../redux/weatherReducer";
+import {createHashHistory} from 'history';
 
 export function Search() {
     const dispatch = useDispatch()
@@ -21,8 +22,10 @@ export function Search() {
 
         const placesAutocomplete = places(fixedOptions).configure(reconfigurableOptions)
 
-        placesAutocomplete.on('change', e => dispatch(setSearchCity(e.suggestion.name)))
-        placesAutocomplete.on('clear', () => dispatch(setSearchCity('')))
+        placesAutocomplete.on('change', e => {
+            createHashHistory().push({search: `?city=${e.suggestion.name}`})
+            dispatch(setSearchCity(e.suggestion.name))
+        })
     }, [dispatch])
 
     return (

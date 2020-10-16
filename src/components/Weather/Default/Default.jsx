@@ -23,7 +23,7 @@ export function Default({history}) {
                         <div className={style.cityItem} key={index}
                              onClick={() => {
                                  dispatch(setSearchCity(city))
-                                 history.push('/today')
+                                 history.push(`/today?city=${city}`)
                              }}
                         >
                             <div className={style.closeBtn}

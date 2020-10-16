@@ -10,12 +10,22 @@ import {getWeather, setSavedCities, setSearchByCoordinates, setSearchCity} from 
 import {Default} from "./components/Weather/Default/Default";
 import {localStorageService} from "./localStorageService";
 import {getCityApi} from "./api/locationAPI";
+import * as queryString from "query-string";
+import {createHashHistory} from 'history';
 
 export function App() {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
+    const history = createHashHistory()
+    const {city} = queryString.parse(history.location.search)
+
     useEffect(() => {
+        if (city) {
+            dispatch(setSearchCity(city))
+            return
+        }
+
         function getCurrentPosition() {
             return new Promise((res, err) => {
                 navigator.geolocation.getCurrentPosition(res, err)
@@ -34,7 +44,7 @@ export function App() {
                     dispatch(setSearchCity(res.data.city))
                 }
             })
-    }, [dispatch])
+    }, [dispatch, city])
 
     useEffect(() => {
         if (weatherState.searchCity || weatherState.searchByCoordinates.lat) {
@@ -58,12 +68,12 @@ export function App() {
     return (
         <div className={style.container}>
             <HashRouter basename={'/'}>
-                <Header/>
+                <Header city={weatherState.searchCity} history={history}/>
                 <Switch>
                     <Route exact path={'/'} component={Default}/>
-                    <Route exact path={'/today'} component={Today}/>
-                    <Route exact path={'/tomorrow'} component={Tomorrow}/>
-                    <Route exact path={'/week'} component={Week}/>
+                    <Route path={'/today'} component={Today}/>
+                    <Route path={'/tomorrow'} component={Tomorrow}/>
+                    <Route path={'/week'} component={Week}/>
                 </Switch>
             </HashRouter>
         </div>
