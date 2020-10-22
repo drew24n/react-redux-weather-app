@@ -1,16 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import style from './Default.module.scss';
-import {TopSection} from "../common/TopSection/TopSection";
+import TopSection from "../../common/TopSection/TopSection";
 import {useDispatch, useSelector} from "react-redux";
 import {removeCity, setPortionsAmount, setSearchCity} from "../../../redux/weatherReducer";
+import Preloader from "../../common/Preloader/Preloader";
 
-export function Default({history}) {
+function Default({history}) {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
     useEffect(() => {
-        dispatch(setPortionsAmount(8))
-    }, [dispatch])
+        if (!weatherState.searchPortions) {
+            dispatch(setPortionsAmount(8))
+        }
+        document.title = 'Weather'
+    }, [dispatch, weatherState.searchPortions])
+
+    if (weatherState.isFetching) return <Preloader/>
 
     return (
         <div className={style.container}>
@@ -41,3 +47,5 @@ export function Default({history}) {
         </div>
     )
 }
+
+export default memo(Default)

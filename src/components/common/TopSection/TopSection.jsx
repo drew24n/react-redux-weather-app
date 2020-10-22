@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {memo} from 'react';
 import style from './TopSection.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {saveCity} from "../../../../redux/weatherReducer";
+import {saveCity} from "../../../redux/weatherReducer";
 
-export function TopSection({history}) {
+function TopSection({history}) {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
     return (
-        <div className={style.container}>
+        <section className={style.container}>
             <div className={style.info}>
                 {weatherState.weatherData.city
                     ? <>
@@ -24,6 +24,8 @@ export function TopSection({history}) {
                 }
             </div>
             <div className={style.addBtn} onClick={() => dispatch(saveCity(weatherState.weatherData.city))}>+</div>
-        </div>
+        </section>
     )
 }
+
+export default memo(TopSection)

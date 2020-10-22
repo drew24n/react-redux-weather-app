@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {memo} from 'react';
 import './Map.scss';
 import {useSelector} from "react-redux";
 import {Map as LeafletMap, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css/';
 import L from 'leaflet';
 
-export function Map() {
+function Map() {
     const weatherState = useSelector(state => state.weather)
 
     delete L.Icon.Default.prototype._getIconUrl
@@ -30,3 +30,5 @@ export function Map() {
         </LeafletMap>
     )
 }
+
+export default memo(Map)

@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import style from './Search.module.scss';
 import places from 'places.js';
 import {useDispatch} from "react-redux";
 import {setSearchCity} from "../../../redux/weatherReducer";
-import {createHashHistory} from 'history';
 
-export function Search() {
+function Search({history}) {
     const dispatch = useDispatch()
+    const searchInput = useRef()
 
     useEffect(() => {
         const fixedOptions = {
             appId: 'plCTYKM9X45Q',
             apiKey: '6fc5c209a0ca763e250a15b19b9267f9',
-            container: document.getElementById('searchInput')
+            container: searchInput.current
         }
 
         const reconfigurableOptions = {
@@ -23,14 +23,18 @@ export function Search() {
         const placesAutocomplete = places(fixedOptions).configure(reconfigurableOptions)
 
         placesAutocomplete.on('change', e => {
-            createHashHistory().push({search: `?city=${e.suggestion.name}`})
+            history.push({search: `?city=${e.suggestion.name}`})
             dispatch(setSearchCity(e.suggestion.name))
         })
-    }, [dispatch])
+    }, [dispatch, history])
 
     return (
         <div className={style.container}>
-            <input id={'searchInput'} placeholder="Find city..."/>
+            <label>
+                <input ref={searchInput} placeholder="Find city..."/>
+            </label>
         </div>
     )
 }
+
+export default memo(Search)

@@ -14,8 +14,8 @@ ReactDOM.render(
                 <App/>
             </BrowserRouter>
         </React.StrictMode>
-    </Provider>,
-    document.getElementById('root')
+    </Provider>
+    , document.getElementById('root')
 )
 
-serviceWorker.unregister()
+serviceWorker.register()

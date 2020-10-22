@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {memo} from 'react';
 import style from './OneDay.module.scss';
 import {useSelector} from "react-redux";
-import {Map} from "./Map/Map";
+import Map from "./Map/Map";
 
-export function OneDay({history}) {
+function OneDay({history}) {
     const weatherState = useSelector(state => state.weather)
     const path = history.location.pathname
 
@@ -67,3 +67,5 @@ export function OneDay({history}) {
         </div>
     )
 }
+
+export default memo(OneDay)

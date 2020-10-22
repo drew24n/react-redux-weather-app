@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import style from './Week.module.scss';
-import {TopSection} from "../common/TopSection/TopSection";
+import TopSection from "../../common/TopSection/TopSection";
 import {useDispatch, useSelector} from "react-redux";
 import {setPortionsAmount} from "../../../redux/weatherReducer";
+import Preloader from "../../common/Preloader/Preloader";
 
-export function Week() {
+function Week() {
     const dispatch = useDispatch()
     const weatherState = useSelector(state => state.weather)
 
@@ -15,8 +16,10 @@ export function Week() {
         dispatch(setPortionsAmount(40))
     }, [dispatch])
 
+    if (weatherState.isFetching) return <Preloader/>
+
     return (
-        <div className={style.container}>
+        <main className={style.container}>
             <TopSection/>
             <div className={style.info}>
                 {weatherState.weatherData.portions.length === 40 ?
@@ -43,6 +46,8 @@ export function Week() {
                     : <p>No data available</p>
                 }
             </div>
-        </div>
+        </main>
     )
 }
+
+export default memo(Week)
