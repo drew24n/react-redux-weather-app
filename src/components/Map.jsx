@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import './Map.scss';
+import React from 'react';
+import '../styles/Map.scss';
 import {useSelector} from "react-redux";
 import {Map as LeafletMap, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css/';
@@ -31,4 +31,4 @@ function Map() {
     )
 }
 
-export default memo(Map)
+export default Map

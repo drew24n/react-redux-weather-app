@@ -1,9 +1,9 @@
-import React, {memo, useEffect} from 'react';
-import style from './Default.module.scss';
-import TopSection from "../../common/TopSection/TopSection";
+import React, {useEffect} from 'react';
+import style from '../styles/Default.module.scss';
+import TopSection from "../components/TopSection";
 import {useDispatch, useSelector} from "react-redux";
-import {removeCity, setPortionsAmount, setSearchCity} from "../../../redux/weatherReducer";
-import Preloader from "../../common/Preloader/Preloader";
+import {removeCity, setPortionsAmount, setSearchCity} from "../redux/weather";
+import Preloader from "../components/Preloader";
 
 function Default({history}) {
     const dispatch = useDispatch()
@@ -48,4 +48,4 @@ function Default({history}) {
     )
 }
 
-export default memo(Default)
+export default Default

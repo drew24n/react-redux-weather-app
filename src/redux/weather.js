@@ -1,5 +1,5 @@
-import {getWeatherApi} from "../api/weatherAPI";
-import {getCityApi} from "../api/locationAPI";
+import {getWeatherApi} from "../api/weather";
+import {getCityApi} from "../api/location";
 import {localStorageService} from "../localStorageService";
 
 const SET_WEATHER = "SET_WEATHER"
@@ -34,7 +34,7 @@ const initialState = {
     isFetching: false
 }
 
-export const weatherReducer = (state = initialState, action) => {
+export const weather = (state = initialState, action) => {
     switch (action.type) {
         case SET_WEATHER:
             return {

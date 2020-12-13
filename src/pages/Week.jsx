@@ -1,9 +1,9 @@
-import React, {memo, useEffect} from 'react';
-import style from './Week.module.scss';
-import TopSection from "../../common/TopSection/TopSection";
+import React, {useEffect} from 'react';
+import style from '../styles/Week.module.scss';
+import TopSection from "../components/TopSection";
 import {useDispatch, useSelector} from "react-redux";
-import {setPortionsAmount} from "../../../redux/weatherReducer";
-import Preloader from "../../common/Preloader/Preloader";
+import {setPortionsAmount} from "../redux/weather";
+import Preloader from "../components/Preloader";
 
 function Week() {
     const dispatch = useDispatch()
@@ -50,4 +50,4 @@ function Week() {
     )
 }
 
-export default memo(Week)
+export default Week

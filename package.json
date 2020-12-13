@@ -1,6 +1,6 @@
 {
   "name": "weather",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "dependencies": {
     "axios": "^0.20.0",
@@ -37,7 +37,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.14.1",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "sass": "^1.30.0"
   }
 }

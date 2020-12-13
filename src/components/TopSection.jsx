@@ -1,7 +1,7 @@
-import React, {memo} from 'react';
-import style from './TopSection.module.scss';
+import React from 'react';
+import style from '../styles/TopSection.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {saveCity} from "../../../redux/weatherReducer";
+import {saveCity} from "../redux/weather";
 
 function TopSection({history}) {
     const dispatch = useDispatch()
@@ -28,4 +28,4 @@ function TopSection({history}) {
     )
 }
 
-export default memo(TopSection)
+export default TopSection

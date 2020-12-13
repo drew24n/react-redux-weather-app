@@ -1,8 +1,8 @@
-import React, {memo, useEffect, useRef} from 'react';
-import style from './Search.module.scss';
+import React, {useEffect, useRef} from 'react';
+import style from '../styles/Search.module.scss';
 import places from 'places.js';
 import {useDispatch} from "react-redux";
-import {setSearchCity} from "../../../redux/weatherReducer";
+import {setSearchCity} from "../redux/weather";
 
 function Search({history}) {
     const dispatch = useDispatch()
@@ -10,8 +10,8 @@ function Search({history}) {
 
     useEffect(() => {
         const fixedOptions = {
-            appId: 'plCTYKM9X45Q',
-            apiKey: '6fc5c209a0ca763e250a15b19b9267f9',
+            appId: process.env.REACT_APP_MAP_APP_ID,
+            apiKey: process.env.REACT_APP_MAP_APP_API_KEY,
             container: searchInput.current
         }
 
@@ -37,4 +37,4 @@ function Search({history}) {
     )
 }
 
-export default memo(Search)
+export default Search

@@ -1,7 +1,7 @@
-import React, {memo} from 'react';
-import style from './Header.module.scss';
+import React from 'react';
+import style from '../styles/Header.module.scss';
 import {NavLink} from "react-router-dom";
-import Search from "./Search/Search";
+import Search from "./Search";
 
 function Header({city, history}) {
     return (
@@ -19,4 +19,4 @@ function Header({city, history}) {
     )
 }
 
-export default memo(Header)
+export default Header

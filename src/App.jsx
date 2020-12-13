@@ -1,18 +1,18 @@
 import React, {lazy, useEffect} from 'react';
-import style from './App.module.scss';
-import Header from "./components/Header/Header";
+import style from './styles/App.module.scss';
+import Header from "./components/Header";
 import {Route, Switch} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getCity, getWeather, setSavedCities, setSearchCity} from "./redux/weatherReducer";
-import Default from "./components/Weather/Default/Default";
+import {getCity, getWeather, setSavedCities, setSearchCity} from "./redux/weather";
+import Default from "./pages/Default";
 import {localStorageService} from "./localStorageService";
 import {withSuspense} from "./hoc/withSuspense";
 import {useHistory} from 'react-router-dom';
 import * as queryString from "query-string";
 
-const Today = lazy(() => import(`./components/Weather/Today/Today`));
-const Tomorrow = lazy(() => import(`./components/Weather/Tomorrow/Tomorrow`));
-const Week = lazy(() => import(`./components/Weather/Week/Week`));
+const Today = lazy(() => import(`./pages/Today`))
+const Tomorrow = lazy(() => import(`./pages/Tomorrow`))
+const Week = lazy(() => import(`./pages/Week`))
 
 export function App() {
     const dispatch = useDispatch()

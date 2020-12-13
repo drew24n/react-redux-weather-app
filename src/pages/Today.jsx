@@ -1,9 +1,9 @@
-import React, {memo, useEffect} from 'react';
-import TopSection from "../../common/TopSection/TopSection";
+import React, {useEffect} from 'react';
+import TopSection from "../components/TopSection";
 import {useDispatch, useSelector} from "react-redux";
-import {setPortionsAmount} from "../../../redux/weatherReducer";
-import OneDay from "../../common/OneDay/OneDay";
-import Preloader from "../../common/Preloader/Preloader";
+import {setPortionsAmount} from "../redux/weather";
+import DayInfo from "../components/DayInfo";
+import Preloader from "../components/Preloader";
 
 function Today({history}) {
     const dispatch = useDispatch()
@@ -18,9 +18,9 @@ function Today({history}) {
     return (
         <main>
             <TopSection/>
-            <OneDay history={history}/>
+            <DayInfo history={history}/>
         </main>
     )
 }
 
-export default memo(Today)
+export default Today
